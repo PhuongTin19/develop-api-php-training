@@ -1,0 +1,165 @@
+-- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
+--
+-- Host: 192.168.37.129    Database: myDB
+-- ------------------------------------------------------
+-- Server version	5.6.11-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `P_BOOK`
+--
+
+DROP TABLE IF EXISTS `P_BOOK`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `P_BOOK` (
+  `BOOK_ID` char(10) NOT NULL,
+  `BOOK_NAME` varchar(100) NOT NULL,
+  `BOOK_PRICE` double NOT NULL,
+  `GENRE_ID` char(10) NOT NULL,
+  `BOOK_TYPE` varchar(9) DEFAULT NULL,
+  PRIMARY KEY (`BOOK_ID`),
+  KEY `GENRE_ID` (`GENRE_ID`),
+  CONSTRAINT `P_BOOK_ibfk_1` FOREIGN KEY (`GENRE_ID`) REFERENCES `P_GENRE` (`GENRE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `P_BOOK`
+--
+
+LOCK TABLES `P_BOOK` WRITE;
+/*!40000 ALTER TABLE `P_BOOK` DISABLE KEYS */;
+INSERT INTO `P_BOOK` VALUES ('BK1','KINH VAN HOA',90,'G1','1'),('BK2','TREN DUONG BANG',90,'G2','0');
+/*!40000 ALTER TABLE `P_BOOK` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `P_CUSTOMER`
+--
+
+DROP TABLE IF EXISTS `P_CUSTOMER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `P_CUSTOMER` (
+  `CUSTOMER_ID` char(10) NOT NULL,
+  `CUSTOMER_NAME` varchar(50) NOT NULL,
+  `CUSTOMER_EMAIL` char(50) NOT NULL,
+  `CUSTOMER_PHONE` char(13) NOT NULL,
+  `CUSTOMER_ADDRESS` varchar(100) NOT NULL,
+  PRIMARY KEY (`CUSTOMER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `P_CUSTOMER`
+--
+
+LOCK TABLES `P_CUSTOMER` WRITE;
+/*!40000 ALTER TABLE `P_CUSTOMER` DISABLE KEYS */;
+INSERT INTO `P_CUSTOMER` VALUES ('CUS1','NGUYEN PHUONG TIN','TIN63711@GMAIL.COM','0901301277','Q.BINH TAN'),('CUS2','NGUYEN PHUONG VU','VU@GMAIL.COM','0901301288','Q.BINH TAN'),('CUS3','PHAN VAN DUC','DUC@GMAIL.COM','0901301299','Q.1');
+/*!40000 ALTER TABLE `P_CUSTOMER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `P_GENRE`
+--
+
+DROP TABLE IF EXISTS `P_GENRE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `P_GENRE` (
+  `GENRE_ID` char(10) NOT NULL,
+  `GENRE_NAME` varchar(50) NOT NULL,
+  PRIMARY KEY (`GENRE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `P_GENRE`
+--
+
+LOCK TABLES `P_GENRE` WRITE;
+/*!40000 ALTER TABLE `P_GENRE` DISABLE KEYS */;
+INSERT INTO `P_GENRE` VALUES ('G1','Truyen Ngan'),('G2','Tieu Thuyet'),('G3','Sach Giao Khoa');
+/*!40000 ALTER TABLE `P_GENRE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `P_ORDER`
+--
+
+DROP TABLE IF EXISTS `P_ORDER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `P_ORDER` (
+  `ORDER_ID` char(10) NOT NULL,
+  `CUSTOMER_ID` char(10) NOT NULL,
+  `ORDER_DATE` date NOT NULL,
+  `ORDER_TOTALPRICE` double NOT NULL,
+  `ORDER_TOTALQUANTITY` int(11) NOT NULL,
+  PRIMARY KEY (`ORDER_ID`),
+  KEY `CUSTOMER_ID` (`CUSTOMER_ID`),
+  CONSTRAINT `P_ORDER_ibfk_1` FOREIGN KEY (`CUSTOMER_ID`) REFERENCES `P_CUSTOMER` (`CUSTOMER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `P_ORDER`
+--
+
+LOCK TABLES `P_ORDER` WRITE;
+/*!40000 ALTER TABLE `P_ORDER` DISABLE KEYS */;
+INSERT INTO `P_ORDER` VALUES ('1','CUS1','2022-01-02',180,2),('2','CUS1','2022-01-02',90,1),('3','CUS2','2022-01-03',90,1),('4','CUS2','2022-01-03',90,1),('5','CUS3','2022-01-04',90,1),('6','CUS3','2022-01-04',180,2);
+/*!40000 ALTER TABLE `P_ORDER` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `P_ORDER_DETAIL`
+--
+
+DROP TABLE IF EXISTS `P_ORDER_DETAIL`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `P_ORDER_DETAIL` (
+  `ORDER_ID` char(10) NOT NULL,
+  `BOOK_ID` char(10) NOT NULL,
+  `BOOK_PRICE` double DEFAULT NULL,
+  `BOOK_QUANTITY` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ORDER_ID`,`BOOK_ID`),
+  KEY `BOOK_ID` (`BOOK_ID`),
+  CONSTRAINT `P_ORDER_DETAIL_ibfk_1` FOREIGN KEY (`ORDER_ID`) REFERENCES `P_ORDER` (`ORDER_ID`),
+  CONSTRAINT `P_ORDER_DETAIL_ibfk_2` FOREIGN KEY (`BOOK_ID`) REFERENCES `P_BOOK` (`BOOK_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `P_ORDER_DETAIL`
+--
+
+LOCK TABLES `P_ORDER_DETAIL` WRITE;
+/*!40000 ALTER TABLE `P_ORDER_DETAIL` DISABLE KEYS */;
+INSERT INTO `P_ORDER_DETAIL` VALUES ('1','BK1',90,1),('2','BK1',180,2),('3','BK1',90,1),('4','BK1',90,1),('5','BK2',90,1),('6','BK2',180,2);
+/*!40000 ALTER TABLE `P_ORDER_DETAIL` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-01-06 16:56:22
